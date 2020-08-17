@@ -10,14 +10,16 @@ class NewsApiProvider{
   
   Client client =Client();
   
-  fetchIds() async{
+  Future<List<int>> fetchTopIds() async{
    final response = await client.get('$_root/topstories.json');
    final ids= json.decode(response.body);
-   return ids;
+
+   
+   return ids.cast<int>();
 
   }
-  fetchItem(int id) async{
-    final response = await client.get(' $_root/item/$id.json');
+  Future<ItemModel> fetchItem(int id) async{
+    final response = await client.get('$_root/item/$id.json');
     final parsedJson = json.decode(response.body);
 
     return ItemModel.fromJson(parsedJson);
