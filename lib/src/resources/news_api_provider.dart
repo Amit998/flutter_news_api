@@ -2,11 +2,13 @@ import 'dart:convert';
 import '../models/item_model.dart';
 import 'package:http/http.dart' show Client;
 import 'dart:convert';
+import 'repository.dart';
+
 
 final _root = 'https://hacker-news.firebaseio.com/v0';
 
 
-class NewsApiProvider{
+class NewsApiProvider implements Source{
   
   Client client =Client();
   
@@ -15,7 +17,7 @@ class NewsApiProvider{
    final ids= json.decode(response.body);
 
    
-   return ids.cast<int>();
+   return ids;
 
   }
   Future<ItemModel> fetchItem(int id) async{
