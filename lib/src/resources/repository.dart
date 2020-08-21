@@ -31,8 +31,7 @@ class Repository{
       }
     }
 
-    for (var cache in cahes
-    ){
+    for (var cache in cahes   ){
       cache.addItem(item);
     }
 
