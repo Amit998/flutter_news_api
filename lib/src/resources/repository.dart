@@ -9,7 +9,7 @@ class Repository{
     NewsApiProvider(),
 
   ];
-  List<Cache> cahes=<Cache>[
+  List<Cache> cache=<Cache>[
     newsDbProvider,
   ];
 
@@ -31,7 +31,7 @@ class Repository{
       }
     }
 
-    for (var cache in cahes   ){
+    for (var cache in cache   ){
       cache.addItem(item);
     }
 

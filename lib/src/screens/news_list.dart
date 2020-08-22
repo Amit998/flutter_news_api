@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app_news/src/blocs/stories_bloc.dart';
 import '../blocs/stories_provider.dart';
@@ -21,21 +19,21 @@ class NewsList extends StatelessWidget {
   Widget buildList(StoriesBloc bloc){
     return StreamBuilder(
       stream: bloc.topIds,
-      builder: (context,snapshot){
+      builder: (context,AsyncSnapshot<List<int>> snapshot){
         if(!snapshot.hasData){
-          return Text('Still Waiting on ids');
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
         return ListView.builder(
             itemCount: snapshot.data.length,
             itemBuilder: (context,int index){
-              return Text(snapshot.data[index]);
+              return Text('${snapshot.data[index]}');
             }
         );
       },
     );
-
   }
-
 }
 //  Widget buildList(){
 //    return ListView.builder(
