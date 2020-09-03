@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import '../models/item_model.dart';
 import '../resources/repository.dart';
@@ -6,9 +7,20 @@ import 'dart:async';
 class StoriesBloc{
   final _repository=Repository();
   final _topIds=PublishSubject<List<int>>();
+  final _items = BehaviorSubject<int>();
 
+  Observable<Maps<int,Future<ItemModel>>> items;
 //  Getter to Streams
   Observable<List<int>> get topIds =>_topIds.stream;
+
+
+  //Getter for sink
+
+  Function(int) get fetchItem => _items.sink.add;
+
+  StoriesBloc(){
+    items= _items.stream.transform(_itemsTransformer());
+  }
 
   fetchTopIds() async{
     final ids= await _repository.fetchTopIds();
@@ -16,7 +28,8 @@ class StoriesBloc{
   }
   _itemsTransformer(){
     return ScanStreamTransformer(
-        (Map<int,Future<ItemModel>> cache,int id,_){
+        (Map<int,Future<ItemModel>> cache,int id,index){
+          print(index);
           cache[id]= _repository.fetchItem(id);
           return cache;
         },
@@ -27,5 +40,7 @@ class StoriesBloc{
 
   dispose(){
     _topIds.close();
+    _items.close();
+
   }
 }
